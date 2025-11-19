@@ -1,0 +1,20 @@
+# Vanilla Unicorn Preisrechner
+
+Ein einfacher GTA-RP Preisrechner für Drinks, Shots und Specials im Vanilla Unicorn.
+
+## 🔧 Funktionen
+- Live Preisberechnung
+- Reset-Funktion
+- Hintergrundbild (global sichtbar)
+- Mobile optimiert
+
+## 🌐 GitHub Pages aktivieren
+1. Repository öffnen  
+2. Settings → Pages  
+3. „Deploy from branch“ auswählen  
+4. Branch: **main**  
+5. Folder: **root (/)**
+6. Speichern
+
+Danach ist die Seite erreichbar unter:
+
