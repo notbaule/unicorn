@@ -21,4 +21,106 @@
   h1{text-align:center;margin:0 0 18px;padding:18px;border-radius:12px;background:rgba(0,0,0,0.5);}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;}
   .card{background:rgba(0,0,0,0.7);padding:14px;border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,0.6);}
-  .card h2{color:#ff4ecb;margin:0 0 10px;font-size:1.4rem;
+  .card h2{color:#ff4ecb;margin:0 0 10px;font-size:1.4rem;text-align:center;}
+  .item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:1.05rem;}
+  input[type=number]{width:70px;padding:6px;border-radius:6px;border:none;text-align:center;font-weight:700;}
+  #total{
+    position:fixed;left:50%;bottom:16px;transform:translateX(-50%);
+    background:rgba(0,0,0,0.9);padding:12px 26px;border-radius:20px;font-size:1.4rem;color:#ff4ecb;
+    box-shadow:0 6px 24px rgba(0,0,0,0.6);
+  }
+  .btn{display:inline-block;margin-top:10px;padding:10px 14px;border-radius:8px;background:#ff4ecb;color:#000;border:none;font-weight:700;cursor:pointer}
+  #resetBtn{position:fixed;left:14px;top:12px;background:#ff6666}
+  @media (max-width:420px){ input[type=number]{width:60px} }
+</style>
+</head>
+<body>
+<button id="resetBtn" class="btn">Reset</button>
+
+<div class="overlay">
+  <h1>Vanilla Unicorn Preisrechner</h1>
+
+  <div class="grid">
+    <div class="card">
+      <h2>DRINKS (ALK)</h2>
+      <div class="item"><span>Bier (450$)</span><input type="number" min="0" value="0" data-price="450"></div>
+      <div class="item"><span>Whisky (450$)</span><input type="number" min="0" value="0" data-price="450"></div>
+      <div class="item"><span>Pina Colada (450$)</span><input type="number" min="0" value="0" data-price="450"></div>
+      <div class="item"><span>Hurricane (450$)</span><input type="number" min="0" value="0" data-price="450"></div>
+    </div>
+
+    <div class="card">
+      <h2>DRINKS (OHNE ALK)</h2>
+      <div class="item"><span>Virgin Sunrise (300$)</span><input type="number" min="0" value="0" data-price="300"></div>
+      <div class="item"><span>Berry Rose (300$)</span><input type="number" min="0" value="0" data-price="300"></div>
+      <div class="item"><span>VIP Exclusive Champagner (10000$)</span><input type="number" min="0" value="0" data-price="10000"></div>
+    </div>
+
+    <div class="card">
+      <h2>FOOD</h2>
+      <div class="item"><span>Chicken Caesar Salat (250$)</span><input type="number" min="0" value="0" data-price="250"></div>
+      <div class="item"><span>Panini (250$)</span><input type="number" min="0" value="0" data-price="250"></div>
+    </div>
+
+    <div class="card">
+      <h2>DESSERT</h2>
+      <div class="item"><span>Golden Cheesecake (300$)</span><input type="number" min="0" value="0" data-price="300"></div>
+      <div class="item"><span>Eclairs (300$)</span><input type="number" min="0" value="0" data-price="300"></div>
+    </div>
+
+    <div class="card">
+      <h2>VIP BEREICH</h2>
+      <div class="item"><span>VIP Bereich 10min (1000$)</span><input type="number" min="0" value="0" data-price="1000"></div>
+      <div class="item"><span>Private Räume 30min ohne Tänzerin (5000$)</span><input type="number" min="0" value="0" data-price="5000"></div>
+      <div class="item"><span>Private Räume 30min mit Tänzerin (10000$)</span><input type="number" min="0" value="0" data-price="10000"></div>
+    </div>
+
+  </div>
+</div>
+
+<div id="total">Gesamtpreis: 0$</div>
+
+<script>
+(() => {
+  // Sicherheitscheck: gibt Fehler in Console aus, falls etwas kaputt ist
+  try {
+    const inputs = Array.from(document.querySelectorAll('input[type="number"]'));
+    const totalEl = document.getElementById('total');
+
+    if(!inputs.length) {
+      console.warn('Keine Eingabefelder gefunden. Prüfe, ob das HTML korrekt ist.');
+    }
+
+    function calc() {
+      let sum = 0;
+      inputs.forEach(i => {
+        const qty = parseInt(i.value,10) || 0;
+        const priceAttr = i.getAttribute('data-price');
+        const price = priceAttr ? parseFloat(priceAttr) : NaN;
+        if (isNaN(price)) {
+          console.error('Ungültiger data-price bei Feld:', i, 'data-price=', priceAttr);
+          return;
+        }
+        sum += qty * price;
+      });
+      totalEl.textContent = 'Gesamtpreis: ' + sum + '$';
+    }
+
+    // Events
+    inputs.forEach(i => i.addEventListener('input', calc));
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      inputs.forEach(i => i.value = 0);
+      calc();
+    });
+
+    // initial
+    calc();
+    console.log('Vanilla Unicorn Rechner geladen. Eingabefelder:', inputs.length);
+  } catch (e) {
+    console.error('Fehler im Rechner-Skript:', e);
+    alert('Fehler im Rechner-Skript. Öffne die Browser-Konsole (F12) und schau nach der Fehlermeldung.');
+  }
+})();
+</script>
+</body>
+</html>
