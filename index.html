@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Vanilla Unicorn Preisrechner</title>
+
+<style>
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: url("https://i.imgur.com/tYxLt93.jpeg") no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', sans-serif;
+        color: white;
+    }
+
+    .wrapper {
+        width: 100%;
+        min-height: 100vh;
+        background: rgba(0, 0, 0, 0.65);
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        padding: 20px;
+        background: rgba(0,0,0,0.6);
+        border-radius: 20px;
+        font-size: 3em;
+        box-shadow: 0 0 15px #000;
+    }
+
+    .calculator {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        padding: 20px;
+    }
+
+    .category {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px #000;
+    }
+
+    .category h2 {
+        text-align: center;
+        font-size: 2em;
+        color: #ff4ecb;
+        margin-bottom: 15px;
+    }
+
+    .item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        font-size: 1.2em;
+    }
+
+    input[type="number"] {
+        width: 60px;
+        padding: 5px;
+        border-radius: 5px;
+        border: none;
+        text-align: center;
+        font-size: 1em;
+        font-weight: bold;
+    }
+
+    #total {
+        position: fixed;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 40px;
+        background: rgba(0,0,0,0.85);
+        color: #ff4ecb;
+        font-size: 2em;
+        border-radius: 20px;
+        box-shadow: 0 0 15px #000;
+    }
+
+    .btn {
+        margin-top: 20px;
+        padding: 12px 25px;
+        font-size: 1.3em;
+        font-weight: bold;
+        background: #ff4ecb;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        color: black;
+        box-shadow: 0 0 15px #ff4ecb;
+    }
+
+    #resetBtn {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        background: #ff5e5e;
+        box-shadow: 0 0 10px red;
+    }
+</style>
+
+</head>
+<body>
+
+<button id="resetBtn" class="btn">Reset</button>
+
+<div class="wrapper">
+    <h1>Vanilla Unicorn Preisrechner</h1>
+
+    <div class="calculator">
+
+        <!-- ALKOHOLISCHE DRINKS -->
+        <div class="category">
+            <h2>DRINKS (ALK)</h2>
+            <div class="item"><span>Bier (450$)</span><input type="number" min="0" value="0" data-price="450"></div>
+            <div class="item"><span>Whisky (450$)</span><input type="number" min="0" value="0" data-price="450"></div>
+            <div class="item"><span>Pina Colada (450$)</span><input type="number" min="0" value="0" data-price="450"></div>
+            <div class="item"><span>Hurricane (450$)</span><input type="number" min="0" value="0" data-price="450"></div>
+        </div>
+
+        <!-- ALKOHOLFREIE DRINKS -->
+        <div class="category">
+            <h2>DRINKS (OHNE ALK)</h2>
+            <div class="item"><span>Virgin Sunrise (300$)</span><input type="number" min="0" value="0" data-price="300"></div>
+            <div class="item"><span>Berry Rose (300$)</span><input type="number" min="0" value="0" data-price="300"></div>
+            <div class="item"><span>VIP Exclusive Champagner (10000$)</span><input type="number" min="0" value="0" data-price="10000"></div>
+        </div>
+
+        <!-- FOOD -->
+        <div class="category">
+            <h2>FOOD</h2>
+            <div class="item"><span>Chicken Caesar Salat (250$)</span><input type="number" min="0" value="0" data-price="250"></div>
+            <div class="item"><span>Panini (250$)</span><input type="number" min="0" value="0" data-price="250"></div>
+        </div>
+
+        <!-- DESSERT -->
+        <div class="category">
+            <h2>DESSERT</h2>
+            <div class="item"><span>Golden Cheesecake (300$)</span><input type="number" min="0" value="0" data-price="300"></div>
+            <div class="item"><span>Eclairs (300$)</span><input type="number" min="0" value="0" data-price="300"></div>
+        </div>
+
+        <!-- VIP BEREICHE -->
+        <div class="category">
+            <h2>VIP BEREICH</h2>
+            <div class="item"><span>VIP Bereich 10min (1000$)</span><input type="number" min="0" value="0" data-price="1000"></div>
+            <div class="item"><span>Private Räume 30min ohne Tänzerin (5000$)</span><input type="number" min="0" value="0" data-price="5000"></div>
+            <div class="item"><span>Private Räume 30min mit Tänzerin (10000$)</span><input type="number" min="0" value="0" data-price="10000"></div>
+        </div>
+
+    </div>
+</div>
+
+<div id="total">Gesamtpreis: 0$</div>
+
+<script>
+function calculateTotal() {
+    const inputs = document.querySelectorAll('input[type="number"]');
+    let sum = 0;
+    inputs.forEach(i => {
+        sum += (parseInt(i.value) || 0) * parseFloat(i.dataset.price);
+    });
+    document.getElementById("total").textContent = "Gesamtpreis: " + sum + "$";
+}
+
+document.querySelectorAll('input').forEach(inp=>{
+    inp.addEventListener("input", calculateTotal);
+});
+
+document.getElementById("resetBtn").onclick = () => {
+    document.querySelectorAll("input").forEach(i => i.value = 0);
+    calculateTotal();
+};
+
+calculateTotal();
+</script>
+
+</body>
+</html>
