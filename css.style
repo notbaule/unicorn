@@ -1,6 +1,0 @@
-
-## 🖼 Hintergrund ändern
-Ersetze im `<style>` Bereich den Link:
-
-```css
-background: url("https://cdn.discordapp.com/attachments/1440416563193970718/1440421625676959755/content.png?ex=691ec16d&is=691d6fed&hm=072b8fc7f33f28c9342d14c21de2ba514686e28b3b52ab152f4118721bd9955c&.jpg") no-repeat center center fixed;
